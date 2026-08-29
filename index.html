@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Petter Nilsen — Cybernetics &amp; Robotics Engineer</title>
+<meta name="description" content="Petter Nilsen — M.Sc. student in Cybernetics and Robotics at NTNU. PCB design, motor control, inertial navigation and robotics.">
+<meta name="theme-color" content="#12171A">
+<meta property="og:title" content="Petter Nilsen — Cybernetics & Robotics Engineer">
+<meta property="og:description" content="M.Sc. student in Cybernetics and Robotics at NTNU. PCB design, motor control, inertial navigation and robotics.">
+<meta property="og:type" content="website">
+
+<!--
+  ============================================================
+  HOW TO CUSTOMIZE THIS SITE — read this first
+  ============================================================
+  1. COLORS & FONTS  → edit the CSS variables in :root (search "EDIT: THEME").
+  2. YOUR PHOTO       → search "EDIT: HERO PHOTO" and drop in an <img>.
+  3. PROJECT PHOTOS   → search "EDIT: PROJECT PHOTO" (4 places) — replace the
+                         placeholder <div class="photo-slot"> content with
+                         <img src="images/your-photo.jpg" alt="...">.
+  4. TEXT CONTENT     → every section is clearly commented below. Swap in
+                         your own words wherever you like — nothing here is
+                         final, it's a first full draft built from your CV.
+  5. LINKS            → search "EDIT: LINK" for LinkedIn / GitHub / CV PDF /
+                         email / phone placeholders.
+  6. TIMELINE ITEMS   → each <div class="t-item"> is one milestone. Copy/
+                         paste the block to add more, or delete ones you
+                         don't want.
+  Everything is in this one file (HTML + CSS + JS) so you can just open it
+  in a browser, or upload it as-is to any static host (GitHub Pages,
+  Netlify, Vercel, etc.) as index.html.
+  ============================================================
+-->
+
+<!-- Optional web fonts. Falls back gracefully to system fonts if this
+     can't load (e.g. offline), so nothing breaks either way. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     EDIT: THEME — change these to re-skin the whole site
+     ============================================================ */
+  :root{
+    --bg:        #12171a;
+    --bg-soft:   #161c1f;
+    --surface:   #1c2327;
+    --surface-2: #212a2e;
+    --border:    #2a3438;
+    --border-soft: #232b2e;
+
+    --text:      #edeae2;
+    --text-dim:  #93a0a0;
+    --text-faint:#5c6b6c;
+
+    --copper:    #c6793e;
+    --copper-br: #e0975c;
+    --signal:    #5fd9c4;
+    --signal-dim:#5fd9c426;
+
+    --font-display: 'Space Grotesk', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
+    --font-body:    'IBM Plex Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-mono:    'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+    --maxw: 1120px;
+    --radius: 4px;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{
+    background:var(--bg);
+    -webkit-text-size-adjust:100%;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    html{ scroll-behavior:smooth; }
+  }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+  /* faint PCB substrate dot-grid, fixed behind everything */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image: radial-gradient(var(--border-soft) 1px, transparent 1px);
+    background-size: 26px 26px;
+    opacity:.5;
+    pointer-events:none;
+    z-index:0;
+  }
+  main, header, footer, section{ position:relative; z-index:1; }
+
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; }
+  h1,h2,h3{ font-family:var(--font-display); margin:0; font-weight:600; }
+  p{ margin:0; }
+  ul{ margin:0; padding:0; list-style:none; }
+
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+
+  ::selection{ background:var(--signal-dim); color:var(--text); }
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--signal);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  .skip-link{
+    position:absolute; left:-9999px; top:0;
+    background:var(--signal); color:var(--bg);
+    padding:10px 16px; z-index:100; font-family:var(--font-mono); font-size:.85rem;
+  }
+  .skip-link:focus{ left:12px; top:12px; }
+
+  /* ---------- progressive-enhancement scroll reveal ----------
+     Content is fully visible with no JS. JS adds the "js" class,
+     which is what actually enables the hidden->visible transition. */
+  .reveal{ transition:opacity .7s ease, transform .7s ease; }
+  html.js .reveal{ opacity:0; transform:translateY(24px); }
+  html.js .reveal.is-visible{ opacity:1; transform:none; }
+
+  /* ============================================================
+     NAV
+     ============================================================ */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(18,23,26,.82);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px;
+    max-width:var(--maxw); margin:0 auto;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--font-mono); font-size:.85rem; letter-spacing:.06em;
+    text-decoration:none; color:var(--text);
+  }
+  .logo-mark{
+    width:26px; height:26px; border:1.5px solid var(--copper);
+    border-radius:3px; display:flex; align-items:center; justify-content:center;
+    font-weight:600; color:var(--copper-br); font-size:.72rem;
+  }
+  .nav-links{ display:flex; gap:28px; }
+  .nav-links a{
+    font-family:var(--font-mono); font-size:.8rem; letter-spacing:.04em;
+    text-decoration:none; color:var(--text-dim);
+    text-transform:uppercase;
+    transition:color .2s ease;
+  }
+  .nav-links a:hover{ color:var(--signal); }
+  .nav-toggle{ display:none; }
+  @media (max-width:680px){
+    .nav-links{ display:none; }
+  }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero{
+    min-height:88vh;
+    display:flex; align-items:center;
+    padding:80px 0 60px;
+  }
+  .hero-inner{ max-width:var(--maxw); margin:0 auto; padding:0 28px; width:100%; }
+  .hero-grid{
+    display:grid; grid-template-columns: 1.4fr .8fr; gap:56px; align-items:center;
+  }
+  @media (max-width:820px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero-photo{ order:-1; max-width:180px; }
+  }
+
+  .eyebrow{
+    font-family:var(--font-mono); font-size:.8rem; letter-spacing:.08em;
+    color:var(--signal); text-transform:uppercase;
+    display:inline-flex; align-items:center; gap:8px;
+    margin-bottom:22px;
+  }
+  .eyebrow::before, .eyebrow::after{ content:"·"; color:var(--copper); opacity:.8;}
+
+  .hero-title{
+    font-size:clamp(2.4rem, 6.4vw, 4.6rem);
+    line-height:1.02;
+    letter-spacing:-.01em;
+    color:var(--text);
+    margin-bottom:22px;
+  }
+  .hero-title span{ color:var(--copper-br); }
+
+  .hero-tagline{
+    font-size:clamp(1.05rem, 1.6vw, 1.25rem);
+    color:var(--text-dim);
+    max-width:46ch;
+    margin-bottom:32px;
+  }
+
+  /* boot sequence flavor text */
+  .boot{
+    font-family:var(--font-mono); font-size:.82rem; color:var(--text-faint);
+    line-height:1.9;
+    margin-bottom:36px;
+    border-left:2px solid var(--border);
+    padding-left:14px;
+  }
+  .boot-line{ white-space:pre-wrap; }
+  .boot-line b{ color:var(--signal); font-weight:500; }
+  @media (prefers-reduced-motion:no-preference){
+    .boot-line{ opacity:0; animation:fadeUp .5s ease forwards; }
+    .boot-line:nth-child(1){ animation-delay:.15s; }
+    .boot-line:nth-child(2){ animation-delay:.45s; }
+    .boot-line:nth-child(3){ animation-delay:.75s; }
+    .boot-line:nth-child(4){ animation-delay:1.05s; }
+    .boot-line:nth-child(5){ animation-delay:1.4s; }
+  }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  .status-dot{
+    display:inline-block; width:7px; height:7px; border-radius:50%;
+    background:var(--signal); margin-right:2px;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .status-dot{ animation:blink 2.2s ease-in-out infinite; }
+  }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:.25;} }
+
+  .hero-ctas{ display:flex; flex-wrap:wrap; align-items:center; gap:16px; }
+
+  .btn{
+    font-family:var(--font-mono); font-size:.85rem; letter-spacing:.03em;
+    padding:13px 24px; border-radius:var(--radius);
+    text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+    cursor:pointer; border:1px solid transparent;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg, var(--copper-br), var(--copper));
+    color:#191008; font-weight:600;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 24px -8px rgba(198,121,62,.55); }
+  .btn-ghost{
+    background:transparent; border-color:var(--border); color:var(--text);
+  }
+  .btn-ghost:hover{ border-color:var(--signal); color:var(--signal); transform:translateY(-2px); }
+  .btn-text{
+    font-family:var(--font-mono); font-size:.82rem; color:var(--text-dim);
+    text-decoration:underline; text-underline-offset:4px; text-decoration-color:var(--border);
+  }
+  .btn-text:hover{ color:var(--signal); text-decoration-color:var(--signal); }
+
+  /* EDIT: HERO PHOTO — replace this placeholder with your own <img> */
+  .hero-photo{
+    aspect-ratio:1/1;
+    border:1px dashed var(--border);
+    border-radius:8px;
+    background-image: radial-gradient(var(--border-soft) 1px, transparent 1px);
+    background-size:16px 16px;
+    background-color:var(--bg-soft);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:10px; text-align:center; padding:20px;
+    color:var(--text-faint);
+  }
+  .hero-photo svg{ width:52px; height:52px; opacity:.6; }
+  .hero-photo span{ font-family:var(--font-mono); font-size:.72rem; letter-spacing:.04em; }
+
+  .scroll-cue{
+    margin-top:56px; display:flex; align-items:center; gap:10px;
+    font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint);
+    letter-spacing:.1em; text-transform:uppercase;
+  }
+  .scroll-cue-line{ width:28px; height:1px; background:var(--border); position:relative; overflow:hidden; }
+  @media (prefers-reduced-motion:no-preference){
+    .scroll-cue-line::after{
+      content:""; position:absolute; inset:0; width:10px; background:var(--signal);
+      animation:cue 1.8s ease-in-out infinite;
+    }
+  }
+  @keyframes cue{ 0%{transform:translateX(-10px);} 50%{transform:translateX(28px);} 100%{transform:translateX(-10px);} }
+
+  /* ============================================================
+     SECTION shell
+     ============================================================ */
+  .section{ padding:96px 0; border-top:1px solid var(--border-soft); }
+  .section-header{ margin-bottom:52px; max-width:640px; }
+  .section-title{ font-size:clamp(1.7rem,3vw,2.3rem); margin-top:8px; }
+  .section-sub{ color:var(--text-dim); margin-top:14px; max-width:56ch; }
+
+  /* ============================================================
+     ABOUT
+     ============================================================ */
+  .about-grid{
+    display:grid; grid-template-columns: 1.5fr 1fr; gap:48px; align-items:start;
+  }
+  @media (max-width:760px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-text p{ color:var(--text-dim); margin-bottom:16px; font-size:1.02rem; }
+  .about-text p:last-child{ margin-bottom:0; }
+  .about-text strong{ color:var(--text); font-weight:600; }
+
+  .quote-card{
+    background:var(--surface); border:1px solid var(--border);
+    border-left:2px solid var(--copper);
+    border-radius:var(--radius);
+    padding:28px 26px;
+  }
+  .quote-mark{ font-family:var(--font-display); font-size:2.6rem; color:var(--copper); line-height:.5; display:block; margin-bottom:10px; }
+  .quote-text{ font-family:var(--font-display); font-size:1.15rem; line-height:1.4; color:var(--text); }
+  .quote-attr{ margin-top:16px; font-family:var(--font-mono); font-size:.78rem; color:var(--text-faint); letter-spacing:.03em; }
+
+  /* ============================================================
+     TIMELINE — the signature element:
+     a copper/teal "signal trace" spine with via-style nodes.
+     ============================================================ */
+  .timeline{ position:relative; padding-top:8px; }
+  .timeline::before{
+    content:""; position:absolute; top:0; bottom:0; left:50%;
+    width:2px; transform:translateX(-1px);
+    background:linear-gradient(180deg, var(--copper), var(--signal) 65%, transparent);
+    opacity:.55;
+  }
+  .pulse-dot{
+    position:absolute; left:50%; top:0; width:9px; height:9px; margin-left:-4.5px;
+    border-radius:50%; background:var(--signal);
+    box-shadow:0 0 14px 3px var(--signal);
+    opacity:0;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .pulse-dot{ animation:travel 7s linear infinite; }
+  }
+  @keyframes travel{
+    0%{ top:0%; opacity:0; }
+    6%{ opacity:1; }
+    94%{ opacity:1; }
+    100%{ top:100%; opacity:0; }
+  }
+
+  .t-item{
+    position:relative;
+    display:grid; grid-template-columns:1fr 56px 1fr;
+    align-items:start;
+    margin-bottom:52px;
+  }
+  .t-item:last-child{ margin-bottom:0; }
+  .t-node{
+    grid-column:2; justify-self:center;
+    width:13px; height:13px; border-radius:50%;
+    background:var(--bg); border:2.5px solid var(--copper-br);
+    margin-top:6px;
+  }
+  .t-card{ grid-column:1; justify-self:end; text-align:right; max-width:420px; }
+  .t-item:nth-child(even) .t-card{ grid-column:3; justify-self:start; text-align:left; }
+
+  .t-date{
+    font-family:var(--font-mono); font-size:.76rem; color:var(--signal);
+    letter-spacing:.03em; margin-bottom:6px; display:block;
+  }
+  .t-title{ font-size:1.12rem; margin-bottom:2px; }
+  .t-org{ font-size:.9rem; color:var(--copper-br); margin-bottom:8px; display:block; }
+  .t-desc{ font-size:.92rem; color:var(--text-dim); }
+
+  @media (max-width:700px){
+    .timeline::before{ left:19px; }
+    .pulse-dot{ left:19px; }
+    .t-item{ grid-template-columns:40px 1fr; margin-bottom:38px; }
+    .t-node{ grid-column:1; justify-self:start; margin-left:1px; }
+    .t-card, .t-item:nth-child(even) .t-card{
+      grid-column:2; justify-self:start; text-align:left; max-width:none;
+    }
+  }
+
+  /* ============================================================
+     PROJECTS
+     ============================================================ */
+  .projects-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:28px;
+  }
+  @media (max-width:760px){ .projects-grid{ grid-template-columns:1fr; } }
+
+  .project-card{
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:8px; overflow:hidden;
+    transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .project-card:hover{
+    transform:translateY(-4px);
+    border-color:var(--copper);
+    box-shadow:0 16px 32px -18px rgba(0,0,0,.6);
+  }
+
+  /* EDIT: PROJECT PHOTO — swap each .photo-slot's contents for
+     <img src="images/yourphoto.jpg" alt="..."> and you can delete
+     the surrounding icon/caption markup. */
+  .photo-slot{
+    aspect-ratio:16/10;
+    background-image: radial-gradient(var(--border-soft) 1px, transparent 1px);
+    background-size:14px 14px;
+    background-color:var(--bg-soft);
+    border-bottom:1px dashed var(--border);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:10px; color:var(--text-faint);
+  }
+  .photo-slot svg{ width:40px; height:40px; opacity:.55; color:var(--copper-br); }
+  .photo-slot span{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.03em; text-align:center; padding:0 20px; }
+
+  .project-body{ padding:24px 26px 26px; }
+  .project-title{ font-size:1.15rem; margin-bottom:4px; }
+  .project-meta{ font-family:var(--font-mono); font-size:.75rem; color:var(--text-faint); margin-bottom:14px; display:block; }
+  .project-desc{ color:var(--text-dim); font-size:.94rem; margin-bottom:18px; }
+
+  .tag-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tag{
+    font-family:var(--font-mono); font-size:.72rem; color:var(--text-dim);
+    border:1px solid var(--border); border-radius:999px; padding:4px 11px;
+  }
+
+  /* ============================================================
+     TOOLBOX
+     ============================================================ */
+  .toolbox-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
+  }
+  @media (max-width:900px){ .toolbox-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .toolbox-grid{ grid-template-columns:1fr; } }
+  .tool-cat{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:22px 20px;
+  }
+  .tool-cat-title{
+    font-family:var(--font-mono); font-size:.74rem; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--copper-br); margin-bottom:14px;
+  }
+  .tool-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    font-size:.85rem; color:var(--text); background:var(--surface-2);
+    border:1px solid var(--border); border-radius:5px; padding:6px 10px;
+  }
+
+  /* ============================================================
+     CERTS + LANGUAGES (datasheet)
+     ============================================================ */
+  .datasheet{ display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+  @media (max-width:760px){ .datasheet{ grid-template-columns:1fr; gap:40px; } }
+  .datasheet-title{
+    font-family:var(--font-mono); font-size:.76rem; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--signal); margin-bottom:18px; padding-bottom:10px; border-bottom:1px solid var(--border);
+  }
+  .cert-item{
+    display:flex; align-items:flex-start; gap:12px;
+    padding:12px 0; border-bottom:1px solid var(--border-soft);
+    font-size:.94rem; color:var(--text-dim);
+  }
+  .cert-item:last-child{ border-bottom:none; }
+  .cert-item svg{ width:16px; height:16px; margin-top:3px; flex-shrink:0; color:var(--copper-br); }
+  .cert-item b{ color:var(--text); font-weight:500; }
+
+  .lang-item{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:12px 0; border-bottom:1px solid var(--border-soft);
+  }
+  .lang-item:last-child{ border-bottom:none; }
+  .lang-name{ font-size:.94rem; }
+  .lang-name b{ display:block; color:var(--text); font-weight:500; }
+  .lang-name span{ font-family:var(--font-mono); font-size:.74rem; color:var(--text-faint); }
+  .lang-bar{ display:flex; gap:4px; }
+  .lang-seg{ width:18px; height:6px; border-radius:2px; background:var(--border); }
+  .lang-seg.filled{ background:var(--signal); }
+
+  /* ============================================================
+     CONTACT — "pinout" style
+     ============================================================ */
+  .contact-top{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:24px; margin-bottom:44px; }
+  .status-badge{
+    display:inline-flex; align-items:center; gap:9px;
+    font-family:var(--font-mono); font-size:.82rem; color:var(--signal);
+    border:1px solid var(--signal-dim); background:var(--signal-dim);
+    padding:8px 16px; border-radius:999px;
+  }
+  .pinout{ border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  .pin-row{
+    display:flex; align-items:center; gap:18px;
+    padding:18px 24px; border-bottom:1px solid var(--border-soft);
+    background:var(--surface);
+  }
+  .pin-row:last-child{ border-bottom:none; }
+  .pin-row:hover{ background:var(--surface-2); }
+  .pin-index{
+    font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint);
+    width:56px; flex-shrink:0;
+  }
+  .pin-label{
+    font-family:var(--font-mono); font-size:.78rem; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--copper-br); width:110px; flex-shrink:0;
+  }
+  .pin-value{ font-size:.98rem; color:var(--text); text-decoration:none; word-break:break-word; }
+  .pin-row a.pin-value:hover{ color:var(--signal); }
+
+  footer{ border-top:1px solid var(--border-soft); padding:32px 0; }
+  .footer-inner{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px;
+    font-family:var(--font-mono); font-size:.76rem; color:var(--text-faint);
+  }
+
+  /* reduced-motion: turn off ambient/looping animations entirely */
+  html.reduce-motion .pulse-dot,
+  html.reduce-motion .scroll-cue-line::after{ display:none; }
+  html.reduce-motion .status-dot{ animation:none; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark">PN</span>
+      PETTER&nbsp;NILSEN
+    </a>
+    <div class="nav-links">
+      <a href="#timeline">Timeline</a>
+      <a href="#projects">Projects</a>
+      <a href="#toolbox">Toolbox</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">M.Sc. Student — Cybernetics &amp; Robotics · NTNU</div>
+          <h1 class="hero-title">Petter Nilsen<br><span>builds the systems robots sense and move with.</span></h1>
+          <p class="hero-tagline">
+            <!-- EDIT: hero tagline -->
+            PCB design, motor control, and inertial navigation for robots that
+            work where people can't — pipes, drones, and off-grid power systems.
+          </p>
+
+          <div class="boot" aria-hidden="true">
+            <p class="boot-line">&gt; boot sequence</p>
+            <p class="boot-line">&gt; loading NTNU_CYBERNETICS_MSC ......... <b>OK</b></p>
+            <p class="boot-line">&gt; loading PCB_DESIGN + MOTOR_CONTROL .... <b>OK</b></p>
+            <p class="boot-line">&gt; loading ROS2_STACK .................... <b>OK</b></p>
+            <p class="boot-line">&gt; status: <span class="status-dot"></span><b>OPEN TO OPPORTUNITIES</b></p>
+          </div>
+
+          <div class="hero-ctas">
+            <a href="#projects" class="btn btn-primary">View the work</a>
+            <a href="#contact" class="btn btn-ghost">Get in touch</a>
+            <!-- EDIT: LINK — point this at your hosted CV PDF -->
+            <a href="#" class="btn-text">Download CV (PDF) →</a>
+          </div>
+
+          <div class="scroll-cue">
+            <span class="scroll-cue-line"></span>
+            Scroll
+          </div>
+        </div>
+
+        <!-- EDIT: HERO PHOTO -->
+        <div class="hero-photo">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="24" cy="17" r="8"/><path d="M8 42c0-8.8 7.2-16 16-16s16 7.2 16 16"/></svg>
+          <span>ADD PHOTO<br>square, 800×800</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       ABOUT
+       ============================================================ -->
+  <section class="section" id="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <!-- EDIT: about paragraph — this is a first-draft synthesis of your
+               CV, written to sound like you. Rewrite freely in your own voice. -->
+          <p>
+            I'm a <strong>master's student in Cybernetics and Robotics at NTNU</strong>,
+            currently splitting my time between coursework and a part-time role
+            building an inspection robot at Equanostic. I like the parts of
+            engineering where hardware and software have to agree with each
+            other — laying out a PCB, tuning a motor control loop, or getting
+            a sensor fusion pipeline to actually trust its own numbers.
+          </p>
+          <p>
+            Before this I finished a <strong>bachelor's in Electrical Engineering
+            (automation and robotics)</strong> at NTNU, spent a semester on
+            exchange at the University of Queensland, and picked up hands-on
+            experience everywhere from a drone team to a wildfire crew to a
+            student-run rural electrification project.
+          </p>
+        </div>
+        <div class="quote-card reveal">
+          <span class="quote-mark">"</span>
+          <p class="quote-text">Optimistic, down to earth, and creative.</p>
+          <p class="quote-attr">— how colleagues and friends describe me</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TIMELINE
+       ============================================================ -->
+  <section class="section" id="timeline">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <div class="eyebrow">Experience &amp; Education</div>
+        <h2 class="section-title">Timeline</h2>
+        <p class="section-sub">Ten milestones, in order — from firefighting to firmware.</p>
+      </div>
+
+      <div class="timeline">
+        <div class="pulse-dot" aria-hidden="true"></div>
+
+        <div class="t-item reveal">
+          <div class="t-card">
+            <span class="t-date">Oct 2020 — Jul 2021</span>
+            <h3 class="t-title">Firefighter</h3>
+            <span class="t-org">Norwegian Air Force</span>
+            <p class="t-desc">Served on a small crew, working under pressure to help people in acute need, plus routine equipment maintenance.</p>
+          </div>
+          <div class="t-node"></div>
+        </div>
+
+        <div class="t-item reveal">
+          <div class="t-card">
+            <span class="t-date">Aug 2021 — Jun 2024</span>
+            <h3 class="t-title">B.Sc. Electrical Engineering</h3>
+            <span class="t-org">NTNU — Automation &amp; Robotics</span>
+            <p class="t-desc">Graduated with a GPA of 4.51 / 5.0.</p>
+          </div>
+          <div class="t-node"></div>
+        </div>
+
+        <div class="t-item reveal">
+          <div class="t-card">
+            <span class="t-date">Sep 2021 — Jun 2022</span>
+            <h3 class="t-title">Electrical Power Engineer Developer</h3>
+            <span class="t-org">Gridville — Engineers Without Borders NTNU</span>
+            <p class="t-desc">Research, planning, and construction of power electronics for small-scale wind turbines, as part of building independent electrical grids.</p>
+          </div>
+          <div class="t-node"></div>
+        </div>
+
+        <div class="t-item reveal">
+          <div class="t-card">
+            <span class="t-date">Aug 2022 — Jun 2025</span>
+            <h3 class="t-title">Student Assistant</h3>
+            <span class="t-org">NTNU — Electronics 1 &amp; Programming</span>
+            <p class="t-desc">Ran lab sessions, owned lab safety, and taught microcontroller programming and control to fellow students.</p>
+          </div>
+          <div class="t-node"></div>
+        </div>
+
+        <div class="t-item reveal">
+          <div class="t-card">
+            <span class="t-date">Sep 2022 — Jun 2023</span>
+            <h3 class="t-title">Drone Developer</h3>
+            <span class="t-org">Ascend NTNU</span>
+            <p class="t-desc">Built drones for manual-flight and autonomous competition challenges — hardware, airframe construction, and custom modules.</p>
+          </div>
+          <div class="t-node"></div>
+        </div>
+
+        <div class="t-item reveal">
+          <div class="t-card">
+            <span class="t-date">Jul 2023 — Nov 2023</span>
+            <h3 class="t-title">Exchange Study</h3>
+            <span class="t-org">University of Queensland, Australia</span>
+            <p class="t-desc">One semester abroad as part of the bachelor's program.</p>
+          </div>
+          <div class="t-node"></div>
+        </div>
+
+        <div class="t-item reveal">
+          <div class="t-card">
+            <span class="t-date">Jan 2024 — May 2024</span>
+            <h3 class="t-title">Bachelor's Thesis</h3>
+            <span class="t-org">ScoutDI</span>
+            <p class="t-desc">Production development for ScoutDI's ultrasonic thickness-measurement system for inspection drones.</p>
+          </div>
+          <div class="t-node"></div>
+        </div>
+
+        <div class="t-item reveal">
+          <div class="t-card">
+            <span class="t-date">Jun 2024 — Aug 2024</span>
+            <h3 class="t-title">Landscape Gardener</h3>
+            <span class="t-org">Sarpsborg Municipality</span>
+            <p class="t-desc">Summer job maintaining Sarpsborg's public beaches.</p>
+          </div>
+          <div class="t-node"></div>
+        </div>
+
+        <div class="t-item reveal">
+          <div class="t-card">
+            <span class="t-date">Jul 2024 — Now</span>
+            <h3 class="t-title">Development Engineer</h3>
+            <span class="t-org">Equanostic AS · Part-time</span>
+            <p class="t-desc">Building a robot that inspects pipe systems with ultrasound and radar. Focus: PCB design, motor control, inertial navigation.</p>
+          </div>
+          <div class="t-node"></div>
+        </div>
+
+        <div class="t-item reveal">
+          <div class="t-card">
+            <span class="t-date">Aug 2024 — Now</span>
+            <h3 class="t-title">M.Sc. Cybernetics &amp; Robotics</h3>
+            <span class="t-org">NTNU</span>
+            <p class="t-desc">Going deeper into control systems, robotics, and autonomous systems.</p>
+          </div>
+          <div class="t-node"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURED PROJECTS
+       ============================================================ -->
+  <section class="section" id="projects">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <div class="eyebrow">Selected Work</div>
+        <h2 class="section-title">Featured projects</h2>
+        <p class="section-sub">Four projects worth a closer look. Swap in real photos below — even a phone photo of a board or a build in progress works well here.</p>
+      </div>
+
+      <div class="projects-grid">
+
+        <article class="project-card reveal">
+          <!-- EDIT: PROJECT PHOTO 1 -->
+          <div class="photo-slot">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="10" y="10" width="28" height="28" rx="2"/><path d="M16 10V5M24 10V5M32 10V5M16 43v-5M24 43v-5M32 43v-5M10 16H5M10 24H5M10 32H5M43 16h-5M43 24h-5M43 32h-5"/><circle cx="19" cy="19" r="1.6" fill="currentColor" stroke="none"/><circle cx="29" cy="19" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="29" r="1.6" fill="currentColor" stroke="none"/><circle cx="29" cy="29" r="1.6" fill="currentColor" stroke="none"/></svg>
+            <span>ADD PHOTO — e.g. the robot, a PCB render, or the pipe rig</span>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Pipe-Inspection Robot</h3>
+            <span class="project-meta">Equanostic AS · 2024 — Now</span>
+            <p class="project-desc">A robot that inspects pipe systems using ultrasound and radar. My focus: PCB design, motor control, and inertial navigation.</p>
+            <div class="tag-row">
+              <span class="tag">PCB Design</span>
+              <span class="tag">Motor Control</span>
+              <span class="tag">Inertial Navigation</span>
+              <span class="tag">Altium</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <!-- EDIT: PROJECT PHOTO 2 -->
+          <div class="photo-slot">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="24" cy="24" r="3" fill="currentColor" stroke="none"/><circle cx="24" cy="24" r="9"/><circle cx="24" cy="24" r="16"/><circle cx="24" cy="24" r="22" stroke-dasharray="2 4"/></svg>
+            <span>ADD PHOTO — e.g. the thesis rig or the drone in the field</span>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Ultrasonic Thickness Measurement</h3>
+            <span class="project-meta">Bachelor's Thesis · ScoutDI · 2024</span>
+            <p class="project-desc">Production development for ScoutDI's ultrasonic thickness-measurement system, built for inspection drones.</p>
+            <div class="tag-row">
+              <span class="tag">Production Dev</span>
+              <span class="tag">Ultrasonics</span>
+              <span class="tag">Drones</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <!-- EDIT: PROJECT PHOTO 3 -->
+          <div class="photo-slot">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="10" cy="10" r="4"/><circle cx="38" cy="10" r="4"/><circle cx="10" cy="38" r="4"/><circle cx="38" cy="38" r="4"/><path d="M13 13l8 8M35 13l-8 8M13 35l8-8M35 35l-8-8"/><rect x="20" y="20" width="8" height="8" rx="1.5"/></svg>
+            <span>ADD PHOTO — e.g. a build photo or competition shot</span>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Competition Drones</h3>
+            <span class="project-meta">Ascend NTNU · 2022 — 2023</span>
+            <p class="project-desc">Built drones for manual-flight and autonomous challenges. Focus on hardware, airframe construction, and custom add-on modules.</p>
+            <div class="tag-row">
+              <span class="tag">Hardware</span>
+              <span class="tag">Airframe Design</span>
+              <span class="tag">Autonomous Flight</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <!-- EDIT: PROJECT PHOTO 4 -->
+          <div class="photo-slot">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><line x1="24" y1="44" x2="24" y2="18"/><path d="M24 18l14-6-4 13z"/><path d="M24 18L8 24l10 8z"/><path d="M24 18l3 15-13-2z"/></svg>
+            <span>ADD PHOTO — e.g. the turbine build or the electronics</span>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Off-Grid Wind Power Electronics</h3>
+            <span class="project-meta">Gridville · Engineers Without Borders NTNU · 2021 — 2022</span>
+            <p class="project-desc">Research, planning, and construction of power electronics for small-scale wind turbines, built for independent electrical grids.</p>
+            <div class="tag-row">
+              <span class="tag">Power Electronics</span>
+              <span class="tag">Wind Energy</span>
+              <span class="tag">Off-Grid Systems</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TOOLBOX
+       ============================================================ -->
+  <section class="section" id="toolbox">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <div class="eyebrow">Skills</div>
+        <h2 class="section-title">Toolbox</h2>
+      </div>
+
+      <div class="toolbox-grid">
+        <div class="tool-cat reveal">
+          <div class="tool-cat-title">Programming</div>
+          <div class="tool-chips">
+            <span class="chip">Python</span>
+            <span class="chip">C++</span>
+            <span class="chip">MATLAB</span>
+          </div>
+        </div>
+        <div class="tool-cat reveal">
+          <div class="tool-cat-title">Robotics &amp; Control</div>
+          <div class="tool-chips">
+            <span class="chip">ROS2</span>
+            <span class="chip">PLC — GX Works2</span>
+          </div>
+        </div>
+        <div class="tool-cat reveal">
+          <div class="tool-cat-title">CAD &amp; PCB</div>
+          <div class="tool-chips">
+            <span class="chip">Fusion 360</span>
+            <span class="chip">Altium Designer</span>
+          </div>
+        </div>
+        <div class="tool-cat reveal">
+          <div class="tool-cat-title">Productivity</div>
+          <div class="tool-chips">
+            <span class="chip">Microsoft Office</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CERTIFICATIONS + LANGUAGES
+       ============================================================ -->
+  <section class="section" id="other">
+    <div class="wrap">
+      <div class="datasheet">
+        <div class="reveal">
+          <div class="datasheet-title">Certifications &amp; Licenses</div>
+          <ul>
+            <li class="cert-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+              <span><b>Driving license BE</b> — car with trailer</span>
+            </li>
+            <li class="cert-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+              <span><b>Fire &amp; safety course</b> — required training for firefighters</span>
+            </li>
+            <li class="cert-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+              <span><b>Sanitation course</b> — injury and damage treatment</span>
+            </li>
+            <li class="cert-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+              <span><b>Learning assistant course</b> — pedagogy for supporting fellow students</span>
+            </li>
+            <li class="cert-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+              <span><b>Drone pilot license</b> — A1/A3</span>
+            </li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <div class="datasheet-title">Languages</div>
+          <ul>
+            <li class="lang-item">
+              <div class="lang-name"><b>Norwegian</b><span>Native</span></div>
+              <div class="lang-bar">
+                <span class="lang-seg filled"></span><span class="lang-seg filled"></span><span class="lang-seg filled"></span>
+              </div>
+            </li>
+            <li class="lang-item">
+              <div class="lang-name"><b>English</b><span>Fluent — written &amp; oral</span></div>
+              <div class="lang-bar">
+                <span class="lang-seg filled"></span><span class="lang-seg filled"></span><span class="lang-seg filled"></span>
+              </div>
+            </li>
+            <li class="lang-item">
+              <div class="lang-name"><b>German</b><span>Basic</span></div>
+              <div class="lang-bar">
+                <span class="lang-seg filled"></span><span class="lang-seg"></span><span class="lang-seg"></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT
+       ============================================================ -->
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="contact-top reveal">
+        <div>
+          <div class="eyebrow">Let's connect</div>
+          <h2 class="section-title">Contact</h2>
+        </div>
+        <span class="status-badge"><span class="status-dot"></span>Open to opportunities</span>
+      </div>
+
+      <div class="pinout reveal">
+        <div class="pin-row">
+          <span class="pin-index">PIN 01</span>
+          <span class="pin-label">Email</span>
+          <a class="pin-value" href="mailto:petternilsen0401@gmail.com">petternilsen0401@gmail.com</a>
+        </div>
+        <div class="pin-row">
+          <span class="pin-index">PIN 02</span>
+          <span class="pin-label">Phone</span>
+          <a class="pin-value" href="tel:+4793474179">+47 934 74 179</a>
+        </div>
+        <div class="pin-row">
+          <span class="pin-index">PIN 03</span>
+          <span class="pin-label">Location</span>
+          <span class="pin-value">Trondheim, Norway</span>
+        </div>
+        <div class="pin-row">
+          <!-- EDIT: LINK — add your LinkedIn URL -->
+          <span class="pin-index">PIN 04</span>
+          <span class="pin-label">LinkedIn</span>
+          <a class="pin-value" href="#">linkedin.com/in/your-handle</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>© 2026 Petter Nilsen</span>
+    <span>Built in Trondheim, Norway</span>
+  </div>
+</footer>
+
+<script>
+  // Progressive enhancement flag — CSS only hides .reveal elements
+  // when this class is present, so the page works with no JS at all.
+  document.documentElement.classList.add('js');
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) document.documentElement.classList.add('reduce-motion');
+
+  var revealEls = document.querySelectorAll('.reveal');
+
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(function (el) { io.observe(el); });
+  }
+</script>
+</body>
+</html>
