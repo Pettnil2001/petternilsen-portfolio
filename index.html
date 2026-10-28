@@ -263,19 +263,17 @@
 
   /* frames the hero photo — dashed border + dot-grid keep the PCB motif
      even once a real photo fills the slot */
+    /* frames the hero photo — the box now hugs the image exactly */
   .hero-photo{
-    aspect-ratio:1/1;
     border:1px dashed var(--border);
     border-radius:8px;
-    background-image: radial-gradient(var(--border-soft) 1px, transparent 1px);
-    background-size:16px 16px;
+    overflow:hidden;          /* clips the photo's corners to the rounded border */
     background-color:var(--bg-soft);
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:10px; text-align:center; padding:20px;
-    color:var(--text-faint);
   }
-  .hero-photo svg{ width:52px; height:52px; opacity:.6; }
-  .hero-photo span{ font-family:var(--font-mono); font-size:.72rem; letter-spacing:.04em; }
+  .hero-photo img{
+    width:100%;
+    height:auto;              /* keeps the photo's own proportions */
+  }
 
   .scroll-cue{
     margin-top:56px; display:flex; align-items:center; gap:10px;
@@ -368,6 +366,31 @@
   .t-photo{
     display:inline-block;
     width:100%; max-width:220px; aspect-ratio:3/4; object-fit:cover;
+    border-radius:6px; border:1px solid var(--border);
+    margin-bottom:14px;
+  }
+
+  .gridville-photo{
+    display:inline-block;
+    width:100%; max-width:1200px; aspect-ratio:10/2; object-fit:cover;
+    border-radius:6px; border:1px solid var(--border);
+    margin-bottom:14px;
+  }
+
+  .UQ-photo{
+    display:inline-block;
+    width:100%; max-width:1200px; aspect-ratio:10/3; object-fit:cover;
+    border-radius:6px; border:1px solid var(--border);
+    margin-bottom:14px;
+  }
+
+  
+
+  .scoutdi-photo,
+  .EQ-photo{
+    display:inline-block;
+    width:100%; max-width:320px;
+    height:auto;              /* height follows the image's real proportions */
     border-radius:6px; border:1px solid var(--border);
     margin-bottom:14px;
   }
@@ -685,6 +708,7 @@
 
         <div class="t-item reveal">
           <div class="t-card">
+            <img class="t-photo" src="pictures/NTNU hovedlogo - farger - hoyde (2).png" alt="NTNU logo 1">
             <span class="t-date">Aug 2021 — Jun 2024</span>
             <h3 class="t-title">B.Sc. Electrical Engineering</h3>
             <span class="t-org">NTNU — Automation &amp; Robotics</span>
@@ -695,6 +719,7 @@
 
         <div class="t-item reveal">
           <div class="t-card">
+            <img class="gridville-photo" src="pictures/GridVille_sort+(2).jpg" alt="Gridville logo">
             <span class="t-date">Sep 2021 — Jun 2022</span>
             <h3 class="t-title">Electrical Power Engineer Developer</h3>
             <span class="t-org">Gridville — Engineers Without Borders NTNU</span>
@@ -715,6 +740,8 @@
 
         <div class="t-item reveal">
           <div class="t-card">
+            
+            <img class="t-photo" src="pictures/AscendNTNUlogo.png" alt="Ascend NTNU logo">
             <span class="t-date">Sep 2022 — Jun 2023</span>
             <h3 class="t-title">Drone Developer</h3>
             <span class="t-org">Ascend NTNU</span>
@@ -724,7 +751,9 @@
         </div>
 
         <div class="t-item reveal">
+          
           <div class="t-card">
+            <img class="UQ-photo" src="pictures/UQlogo.jpg" alt="University of Queensland logo">
             <span class="t-date">Jul 2023 — Nov 2023</span>
             <h3 class="t-title">Exchange Study</h3>
             <span class="t-org">University of Queensland, Australia</span>
@@ -734,7 +763,9 @@
         </div>
 
         <div class="t-item reveal">
+          
           <div class="t-card">
+            <img class="scoutdi-photo" src="pictures/scoutdi_logo.png" alt="ScoutDI logo">
             <span class="t-date">Jan 2024 — May 2024</span>
             <h3 class="t-title">Bachelor's Thesis</h3>
             <span class="t-org">ScoutDI</span>
@@ -755,6 +786,7 @@
 
         <div class="t-item reveal">
           <div class="t-card">
+            <img class="EQ-photo" src="pictures/EQ_logo.png" alt="Equanostic logo">
             <span class="t-date">Jul 2024 — Jul 2026</span>
             <h3 class="t-title">Development Engineer &amp; Master's Thesis</h3>
             <span class="t-org">Equanostic AS · Part-time</span>
@@ -765,6 +797,7 @@
 
         <div class="t-item reveal">
           <div class="t-card">
+            <img class="t-photo" src="pictures/NTNU hovedlogo - farger - hoyde (2).png" alt="NTNU logo 2">
             <span class="t-date">Aug 2024 — Jun 2026</span>
             <h3 class="t-title">M.Sc. Cybernetics &amp; Robotics</h3>
             <span class="t-org">NTNU</span>
@@ -785,6 +818,8 @@
 
         <div class="t-item reveal">
           <div class="t-card">
+            
+            <img class="t-photo" src="pictures/PQ-tech-logo.png" alt="PQ-tech-logo">
             <span class="t-date">Aug 2026 — Now</span>
             <h3 class="t-title">Systems Engineer</h3>
             <span class="t-org">PQtech</span>
@@ -863,6 +898,21 @@
               <span class="tag">Hardware</span>
               <span class="tag">Airframe Design</span>
               <span class="tag">Autonomous Flight</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <img class="project-photo" src="pictures/Ferry_motor.jpg" alt="Motor analysis on a electrical ferry">
+          <div class="project-body">
+            <h3 class="project-title">Motor analysis on a electrical ferry</h3>
+            <span class="project-meta">PQTech · 2026</span>
+            <p class="project-desc">I have done multiple field engineering projects containing measurement and analysis of the electrical power system and motor status. This work containted using multiple spesific sensors for spesific tasks and analyse data with high sample rate with a lot of disturbance. </p>
+            <div class="tag-row">
+              <span class="tag">Data analysis</span>
+              <span class="tag">Frequency analysuis</span>
+              <span class="tag">Field work</span>
+              <span class="tag">Sensor hardware usage</span>
             </div>
           </div>
         </article>
